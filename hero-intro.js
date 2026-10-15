@@ -98,10 +98,11 @@
     const GO = .8 + 1.6 * .82, dur = BAR_FOLD * .95;   // leave the moment the fill looks full
     // The site runs GSAP without lag smoothing (for Lenis), so a busy frame (building this, starting
     // the videos) would make the timeline jump ahead and skip the pen stroke. The intro keeps its own
-    // clock instead: paused, advanced each tick by at most ~2 frames.
+    // clock instead: paused, advanced each tick by the real frame time but at most 120ms, so a stall of
+    // a second or more is not skipped while slow (or background, ~1fps) frames still keep normal speed.
     const tl = gsap.timeline({ paused: true, onComplete: () => { gsap.ticker.remove(step); finish(); } });
     let clock = 0;
-    function step(time, dt) { clock += Math.min(dt, 34) / 1000; tl.time(clock); }
+    function step(time, dt) { clock += Math.min(dt, 120) / 1000; tl.time(clock); }
     tl.fromTo(op, { strokeDashoffset: 1000 }, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.inOut', stagger: .09 }, .1)
       .fromTo([soft, out], { '--p': '-10%' }, { '--p': '112%', duration: 1.6, ease: FILL }, .8)
       .fromTo(hot, { scaleX: 0 }, { scaleX: 1, duration: 1.6, ease: FILL }, .8)
