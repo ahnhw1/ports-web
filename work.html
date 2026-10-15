@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work — PORTS</title>
+  <meta name="description" content="PORTSは、フィジカルとデジタルを繋ぎ、従来のエンターテインメント文化を、新たな文化である[INTERTAINMENT]へと変革するクリエイティブエージェンシー。">
+  <meta name="theme-color" content="#0000FF">
+  <link rel="icon" href="assets/favicon.ico" sizes="48x48">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- motion is opt-in: script.js removes this class if the animation libraries fail to load -->
+</head>
+<body>
+  <!-- dot cursor (cursor.js): a small blue dot that follows the pointer and shows a label over links -->
+  <div id="boat" class="boat" aria-hidden="true">
+    <span class="boat__label" id="boatLabel"></span>
+    <span class="boat__dot"></span>
+  </div>
+  <header class="header">
+    <a class="header__logo" href="index.html" aria-label="PORTS — back to top"><img src="assets/logo-wordmark.svg" alt="PORTS" width="464" height="107"></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" hidden>
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- full-screen menu: big primary links on the left, described secondary links on the right -->
+  <div class="menu theme-light" id="menu" inert>
+    <nav class="menu__main" aria-label="Menu">
+      <a href="index.html#about">ABOUT</a>
+      <a href="index.html#creative-studio">SIDE DOCK</a>
+      <a href="index.html#works">WORKS</a>
+      <a href="index.html#company">COMPANY</a>
+      <a href="#contact" data-todo>CONTACT</a>
+    </nav>
+    <div class="menu__side">
+      <a href="#news" data-todo><b>News</b><span lang="ja">最新のお知らせ</span></a>
+      <a href="#career" data-todo><b>Career</b><span lang="ja">一緒に働く仲間を募集中</span></a>
+    </div>
+    <span class="menu__dm">Dark mode ◐</span>
+  </div>
+  <!-- Work detail (A, immersive): full-bleed hero with the title, overview + spec table, a wide image,
+       a pair, a process note + image, then the next project. Filled from works-data.js by work-page.js. -->
+  <main class="wd" id="wd" aria-live="polite"></main>
+  <footer class="footer">
+    <!-- D2: dark end sheet, three info columns, the logo filling the width and running off the bottom.
+         Each logo piece sinks under the pointer and springs back (sections.js). -->
+    <div class="footer__end theme-light">
+      <!-- company profile (moved here from the old Profile section) -->
+      <div class="footer__cols" id="profile">
+        <div><p class="footer__lbl mono">COMPANY</p><p>PORTS Inc. / <span lang="ja">株式会社PORTS</span><br>Founded August 2022<br>CEO Makoto Nirasawa / <span lang="ja">韮澤真人</span></p></div>
+        <div><p class="footer__lbl mono">ADDRESS</p><p>8B, Futaba Building, 1-16-6 Dogenzaka,<br>Shibuya-ku, Tokyo 150-0043</p></div>
+        <div><p class="footer__lbl mono">CONTACT</p><p>info@portshd.com</p></div>
+        <div><p class="footer__lbl mono">FOLLOW</p><p>Instagram · X · note<br><a href="#career" data-todo>Career →</a></p></div>
+      </div>
+      <div class="footer__big">
+        <svg viewBox="0 -40 714.94 194.25" role="img" aria-label="PORTS">
+          <g class="fl"><path fill-rule="evenodd" d="M53.52.54C27.54.54,5.9,19.08,1.09,43.66c0,0-.26,1.35-.37,2.05-.03.18-.05.36-.08.54-.07.48-.13.97-.19,1.46-.05.41-.1.82-.13,1.23-1.71,17.93,3.2,43.58,16.73,64.85,14.94,23.48,36.26,38.07,44.03,40.46,0,0-6.12-8.46-9.37-25.63-1.81-9.61-1.470-16.75-.78-21.27.85.04,1.71.07,2.57.07,29.51,0,53.44-23.92,53.44-53.44S83.03.54,53.52.54Z"/></g>
+          <g class="fl"><circle cx="176.72" cy="53.97" r="53.44"/></g>
+          <g class="fl"><path d="M315.47,5.69c-5.68-2.79-12.63-4.2-20.68-4.2h-43.88v104.56h21.3v-39.99h22.58c8.55,0,15.73-1.51,21.36-4.5,5.35-2.84,9.17-6.61,12.01-11.87,2.64-4.88,3.98-10.18,3.98-15.76,0-6.18-1.44-11.78-4.28-16.67-3.05-5.24-6.99-8.92-12.39-11.57ZM272.52,19.22h21.3c10.92,0,16.46,4.95,16.46,14.71,0,4.6-1.36,8.21-4.03,10.74-2.67,2.53-6.86,3.82-12.43,3.82h-21.3v-29.27Z"/></g>
+          <g class="fl"><path d="M422.53,6.89c-8.1-4.570-17.2-6.89-27.03-6.89s-18.81,2.32-26.96,6.89c-8.15,4.57-14.7,11-19.47,19.1-4.77,8.1-7.19,17.35-7.19,27.49s2.42,19.54,7.19,27.63c4.77,8.1,11.32,14.53,19.47,19.1,8.15,4.57,17.22,6.89,26.96,6.89s18.81-2.32,26.96-6.89c8.15-4.57,14.68-11,19.4-19.1,4.72-8.1,7.12-17.4,7.12-27.63s-2.39-19.38-7.12-27.48c-4.72-8.1-11.23-14.53-19.33-19.1ZM426.75,53.47c0,6.83-1.33,12.91-3.96,18.07-2.63,5.16-6.33,9.18-11,11.95-4.67,2.78-10.15,4.18-16.29,4.18s-11.64-1.41-16.36-4.18c-4.72-2.77-8.45-6.79-11.07-11.95-2.63-5.16-3.96-11.24-3.96-18.07s1.33-12.89,3.96-18c2.63-5.11,6.35-9.08,11.07-11.8,4.72-2.73,10.23-4.11,16.36-4.11s11.62,1.38,16.29,4.11c4.67,2.72,8.37,6.7,11,11.81,2.63,5.12,3.96,11.18,3.96,18Z"/></g>
+          <g class="fl"><path d="M535.24,52.33c3.99-5.53,6.01-11.83,6.01-18.7,0-5.98-1.44-11.46-4.28-16.29-2.84-4.84-7.16-8.73-12.84-11.57-5.67-2.84-12.63-4.27-20.68-4.27h-39.3v104.56h21.31v-40.58h9.52l22.92,40.48.06.1h24.65l-24.96-42.3c7.74-2.11,13.66-5.95,17.61-11.42ZM519.35,34.08c0,4.79-1.38,8.58-4.12,11.26-2.73,2.68-6.95,4.04-12.54,4.04h-17.25v-30.17h17.25c5.58,0,9.8,1.31,12.54,3.9,2.73,2.59,4.11,6.27,4.11,10.97Z"/></g>
+          <g class="fl"><polygon points="551.35 20.01 580.35 20.01 580.35 106.05 601.66 106.05 601.66 20.01 630.65 20.01 630.65 1.49 551.35 1.49 551.35 20.01"/></g>
+          <g class="fl"><path d="M710.28,59.91c-3.09-3.98-6.83-7.02-11.12-9.01-4.26-1.98-9.84-3.99-16.59-5.98-4.95-1.49-8.83-2.81-11.54-3.95-2.7-1.12-4.98-2.62-6.8-4.43-1.79-1.79-2.7-4.07-2.7-6.79,0-3.9,1.21-6.91,3.58-8.94,2.38-2.05,5.63-3.08,9.64-3.08,4.6,0,8.35,1.16,11.13,3.46,2.77,2.29,4.28,5.22,4.48,8.73v.2h23.41l-.02-.22c-.7-9.37-4.47-16.77-11.2-22.01-6.72-5.23-15.57-7.88-26.31-7.88-7.16,0-13.61,1.24-19.18,3.67-5.58,2.44-9.98,6.01-13.07,10.59-3.09,4.59-4.66,10.05-4.66,16.23,0,6.58,1.55,11.92,4.59,15.87,3.04,3.94,6.73,6.92,10.97,8.86,4.22,1.94,9.78,3.92,16.52,5.91,4.95,1.39,8.89,2.67,11.69,3.8,2.8,1.13,5.16,2.69,7.01,4.65,1.84,1.94,2.78,4.46,2.78,7.47,0,3.7-1.38,6.73-4.1,9.02-2.74,2.29-6.56,3.46-11.36,3.46s-8.44-1.24-11.12-3.68c-2.68-2.43-4.19-5.8-4.49-10.01v-.19h-22.8v.21c.1,6.38,1.87,11.99,5.26,16.68,3.38,4.68,8.06,8.32,13.89,10.81,5.82,2.49,12.45,3.75,19.7,3.75,7.65,0,14.36-1.44,19.94-4.27,5.58-2.84,9.87-6.71,12.76-11.49,2.89-4.79,4.36-10.04,4.36-15.63,0-6.48-1.57-11.79-4.67-15.79Z"/></g>
+        </svg>
+      </div>
+    </div>
+  </footer>
+
+  <!-- motion libraries (pinned): GSAP core + plugins, Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.23/dist/lenis.min.js"></script>
+  <script src="works-data.js"></script>
+  <script src="script.js"></script>
+  <script src="sections.js"></script>
+  <script src="work-page.js"></script>
+  <script src="polish.js"></script>
+  <script src="cursor.js"></script>
+</body>
+</html>

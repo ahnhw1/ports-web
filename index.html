@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PORTS</title>
+  <meta name="description" content="PORTSは、フィジカルとデジタルを繋ぎ、従来のエンターテインメント文化を、新たな文化である[INTERTAINMENT]へと変革するクリエイティブエージェンシー。">
+  <meta name="theme-color" content="#0000FF">
+  <link rel="icon" href="assets/favicon.ico" sizes="48x48">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- motion is opt-in: script.js removes this class if the animation libraries fail to load -->
+  <script>document.documentElement.classList.add('js-anim');</script>
+</head>
+<body>
+  <!-- dot cursor (cursor.js): a small blue dot that follows the pointer and shows a label over links -->
+  <div id="boat" class="boat" aria-hidden="true">
+    <span class="boat__label" id="boatLabel"></span>
+    <span class="boat__dot"></span>
+  </div>
+  <!-- bar: the PORTS letters left, the menu button right (script.js fills it with the semicolon mark,
+       which morphs into menu lines / a cross); the full menu drops down from the top -->
+
+  <header class="header">
+    <a class="header__logo" href="#hero" aria-label="PORTS — back to top"><img src="assets/logo-wordmark.svg" alt="PORTS" width="464" height="107"></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" hidden>
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- full-screen menu: big primary links on the left, described secondary links on the right -->
+  <div class="menu theme-light" id="menu" inert>
+    <nav class="menu__main" aria-label="Menu">
+      <a href="#about">ABOUT</a>
+      <a href="#creative-studio">SIDE DOCK</a>
+      <a href="#works">WORKS</a>
+      <a href="#company">COMPANY</a>
+      <a href="#contact" data-todo>CONTACT</a>
+    </nav>
+    <div class="menu__side">
+      <a href="#news" data-todo><b>News</b><span lang="ja">最新のお知らせ</span></a>
+      <a href="#career" data-todo><b>Career</b><span lang="ja">一緒に働く仲間を募集中</span></a>
+    </div>
+    <span class="menu__dm">Dark mode ◐</span>
+  </div>
+
+  <main>
+    <section class="hero" id="hero">
+      <!-- background reel: our work, one clip every 5 seconds with a crossfade (sections.js) -->
+      <div class="hero__bg" id="heroReel" aria-hidden="true">
+        <video class="is-on" src="assets/video/hero-01.mp4" muted loop playsinline preload="auto"></video>
+        <video src="assets/video/hero-02.mp4" muted loop playsinline preload="none"></video>
+        <video src="assets/video/hero-03.mp4" muted loop playsinline preload="none"></video>
+        <video src="assets/video/hero-04.mp4" muted loop playsinline preload="none"></video>
+        <video src="assets/video/hero-05.mp4" muted loop playsinline preload="none"></video>
+        <video src="assets/video/hero-06.mp4" muted loop playsinline preload="none"></video>
+      </div>
+
+      <!-- A4: three small facts under the bar, one big sentence bottom-right, latest work + CTA bottom-left -->
+      <div class="hero__grid">
+        <p class="hero__s">Our philosophy<br><span>Connecting people and content<br>to create new possibilities.</span></p>
+        <p class="hero__s">Shibuya, Tokyo · <b id="clock" aria-label="Tokyo time">--:--:--</b><br><span>Founded in 2022</span></p>
+        <p class="hero__s hero__live" lang="ja"><i aria-hidden="true"></i>新規プロジェクト受付中</p>
+      </div>
+
+      <h1 class="hero__ja" lang="ja">人とコンテンツで、<br>まだ見ぬ可能性をつなぐ。</h1>
+
+      <a class="hero__latest" id="heroLatest" href="works.html" data-cursor="View">
+        <span class="hero__latest-img" aria-hidden="true"></span>
+        <span class="hero__latest-t">Latest work →</span>
+      </a>
+      <a class="hero__cta" href="#contact" data-todo>Start a project</a>
+    </section>
+
+    <section class="domain" id="about" data-nav="about">
+      <div class="section-bg" aria-hidden="true">
+        <i class="blob blob--a"></i>
+        <i class="blob blob--b"></i>
+      </div>
+
+      <!-- the shader that takes over in step 3: a screen-sized canvas held in place (sticky) across the
+           whole section, behind the pinned stage and the Japanese block; it ends with the section -->
+      <div class="domain__fullwrap" aria-hidden="true"><canvas class="domain__full" id="domainFull"></canvas></div>
+
+      <!-- pinned part (about-stage.js), three scroll steps: 1 the title melts into INTERTAINMENT and the
+           statement's words gather / 2 the four shader images open between the words / 3 the fans image
+           grows to fill the section, then the Japanese copy appears -->
+      <div class="domain__pin">
+      <div class="domain__sticky">
+
+      <div class="domain__title reveal">
+        <!-- liquid morph: ENTER melts (goo filter) and sets again as a blue INTER; E and I share one cell -->
+        <h2 class="domain__h2" aria-label="INTERTAINMENT"><span class="domain__lq" id="domainLq" aria-hidden="true"><span class="domain__ei" id="domainEi"><span>E</span><span>I</span></span>NTER</span><span aria-hidden="true">TAINMENT</span></h2>
+        <svg class="domain__defs" aria-hidden="true" width="0" height="0"><filter id="domainGoo" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur id="domainGooBlur" stdDeviation="0"/><feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -12"/></filter></svg>
+      </div>
+
+      <!-- the statement (C1 words gather, C7 live shader images before stage / audience / artists / fans) -->
+      <p class="domain__stmt" id="domainStmt">We are using <b>interactive</b> technology to transform the traditional entertainment culture—where the <i class="domain__img" data-shader="stage"></i>stage and the <i class="domain__img" data-shader="audience"></i>audience, as well as <i class="domain__img" data-shader="artists"></i>artists and <i class="domain__img" data-shader="fans"></i>fans, were once separated—into a new culture of <b>INTERTAINMENT.</b></p>
+      </div>
+      </div>
+
+      <!-- after the pin, in normal flow: the Japanese copy with room around it -->
+      <div class="domain__body">
+        <p class="domain__ja" lang="ja"><strong>Inter = 交流する</strong>　「エンターテインメント(Entertainment)」の「Enter」は、ラテン語で「引き込む」という意味の単語に由来しています。私たちは相互的(Inter)なテクノロジーを活用し、かつては舞台と観客、アーティストとファンが隔てられていた従来のエンターテインメント文化を、新たな文化である<strong>INTERTAINMENT</strong>へと変革しています。</p>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT PORTS: SERVICES ===== -->
+    <section class="sec services theme-light" id="services" data-nav="about">
+      <div class="cover-shade" aria-hidden="true"></div>
+
+      <!-- A3 (Sirnik): one full-screen panel per service; each rises over the previous one and the
+           tone steps light -> blue -> near-black. Image and related-works count come from works-data.js. -->
+      <div class="svp" id="svcPanels">
+        <section class="svp__panel svp__panel--1" data-cat="branding" aria-labelledby="svp-1">
+          <h3 class="svp__name" id="svp-1">Branding</h3>
+          <div class="svp__body">
+            <p class="svp__en">Integrated branding services for the INTERTAINMENT sector, seamlessly bridging the physical and digital worlds.</p>
+            <p class="svp__ja" lang="ja">フィジカルとデジタルを繋ぎ、一気通貫したインターテインメント領域のブランディング事業</p>
+            <a class="svp__img" href="works.html#branding" data-cursor="View" aria-label="Branding works"></a>
+          </div>
+          <a class="svp__more" href="works.html#branding">Branding works <b class="svp__count"></b><span aria-hidden="true">→</span></a>
+        </section>
+        <section class="svp__panel svp__panel--2" data-cat="production" aria-labelledby="svp-2">
+          <h3 class="svp__name" id="svp-2">Creative<br>Production</h3>
+          <div class="svp__body">
+            <p class="svp__en">Design, Web, and Video production powered by cutting-edge technologies, including WebGL, 3D CG, and AI.</p>
+            <p class="svp__ja" lang="ja">WebGL / 3D CG / AI などの技術力を駆使した、Design・Web・Videoプロダクション事業</p>
+            <a class="svp__img" href="works.html#production" data-cursor="View" aria-label="Creative production works"></a>
+          </div>
+          <a class="svp__more" href="works.html#production">Production works <b class="svp__count"></b><span aria-hidden="true">→</span></a>
+        </section>
+        <section class="svp__panel svp__panel--3" data-cat="product" aria-labelledby="svp-3">
+          <h3 class="svp__name" id="svp-3">Original<br>Product</h3>
+          <div class="svp__body">
+            <p class="svp__en">Digital product development aimed at accelerating the future of INTERTAINMENT.</p>
+            <p class="svp__ja" lang="ja">インターテインメントを加速させる、デジタルプロダクト開発事業</p>
+            <a class="svp__img" href="works.html#product" data-cursor="View" aria-label="Original product works"></a>
+          </div>
+          <a class="svp__more" href="works.html#product">Product works <b class="svp__count"></b><span aria-hidden="true">→</span></a>
+        </section>
+      </div>
+    </section>
+
+    <!-- ===== CREATIVE STUDIO: SIDE DOCK ===== -->
+    <section class="studio theme-light" id="creative-studio" data-nav="creative-studio">
+      <!-- brand-blue sheet: rises over the service panels, then reads as a nautical chart (side-dock-chart.js)
+           whose sea reaches land in the Works background colour, so the works list follows without a seam -->
+      <div class="studio__panel" aria-hidden="true"><canvas class="studio__chart"></canvas><div class="studio__marks"></div></div>
+      <div class="studio__sticky">
+
+      <div class="studio__grid">
+        <div class="studio__brand reveal">
+          <p class="studio__sub">Creative Studio</p>
+          <h2 class="studio__logo"><img src="assets/semicolon_white.svg" alt="" width="305" height="204"><span>SIDE DOCK</span></h2>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- ===== CREATIVE STUDIO: WORKS (A5 index) =====
+         Selected works as a huge condensed name list; the name at the centre is dark and its images
+         stack on the right. Filled from works-data.js (featured entries) by sections.js.
+         This page rises over SIDE DOCK (the cover script.js used to run with Mission). -->
+    <section class="works theme-light" id="works" data-nav="creative-studio">
+      <div class="works__sticky">
+        <ul class="works__list" id="worksList"></ul>
+        <!-- the three images belong to the work at the centre; each opens its detail page -->
+        <div class="works__imgs" id="worksImgs"><a href="#" data-cursor="View"><span class="works__lift"></span></a><a href="#" data-cursor="View" tabindex="-1"><span class="works__lift"></span></a><a href="#" data-cursor="View" tabindex="-1"><span class="works__lift"></span></a></div>
+        <a class="works__all" href="works.html">All works <b class="works__count" id="worksCount"></b><span class="works__arrow" aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <!-- ===== COMPANY: MISSION ===== -->
+    <section class="sec mission theme-light" id="company" data-nav="company">
+
+      <div class="mission__title reveal">
+        <h2 class="mission__h2">CONNECTING<br><b>PEOPLE</b> and <b>CONTENT.</b></h2>
+      </div>
+
+      <!-- two staggered columns: English high on the left, Japanese lower on the right; globe as a margin mark -->
+      <div class="mission__body reveal">
+        <img class="mission__globe" src="assets/globe.svg" alt="" width="863" height="465">
+        <div class="mission__en">
+          <p><strong>PORT / Harbor, Connection Point</strong> — Japan, 1853. Following the opening of the ports of Shimoda and Hakodate, a diverse flow of cultures, information and people began to circulate, leading to the evolution of various cultural aspects—not only in terms of food, clothing and shelter, but also in entertainment and the arts. Throughout history, new cultures and stories have always emerged from exchanges that transcend borders and boundaries. <mark>People and content.</mark> <mark>The everyday and the extraordinary.</mark> <mark>The digital and the physical.</mark> We at <strong>PORTS</strong> aim to create a space where the next generation of entertainment culture can flourish, made possible precisely because everything is now seamlessly connected through modern technology.</p>
+        </div>
+        <div class="mission__ja">
+          <p lang="ja"><strong>PORT / 港、接続口</strong>　1853年、日本。下田と箱館の開港以降、様々な文化・情報・人々が行き交い、衣食住だけではなく娯楽や芸術など様々な文化が進化を遂げていった。いつの時代も国境や領域を超えた交流から、新たな文化や物語は始まっている。<mark>人々とコンテンツと。</mark><mark>日常と非日常と。</mark><mark>デジタルとフィジカルと。</mark>我々<strong>PORTS</strong>は現代のテクノロジーを通じて、あらゆるものがシームレスに繋がる今だからこそできる、次世代のインターテインメント文化が生まれる場所を目指します。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COMPANY: VALUE ===== -->
+    <section class="value" id="value" data-nav="company">
+      <!-- sticky stage: CREATIVITY / TECHNOLOGY hold until the stage is pinned, then dissolve into INTERTAINMENT -->
+      <div class="value__sticky">
+      <!-- B4: the two values in Japanese, screen-sized and very faint behind the stage; they drift
+           against each other with the pointer (sections.js) -->
+      <span class="value__kanji value__kanji--1" lang="ja" aria-hidden="true">創造力</span>
+      <span class="value__kanji value__kanji--2" lang="ja" aria-hidden="true">技術力</span>
+
+      <!-- the two words on two lines merge letter by letter into one line, a blue × landing between them -->
+      <div class="value__words" role="img" aria-label="Creativity × Technology">
+        <div class="value__layer value__src" aria-hidden="true"><span class="value__row">CREATIVITY</span><span class="value__row">TECHNOLOGY</span></div>
+        <div class="value__layer value__dst" aria-hidden="true"><span class="value__row">CREATIVITY <span class="value__x">×</span> TECHNOLOGY</span></div>
+      </div>
+
+      <div class="value__body">
+        <p class="value__en"><strong>Creative vision</strong> that imagines what no one has seen and <strong>technical prowess</strong> that makes it real, held by one and the same team — that is how we deliver seamless, groundbreaking entertainment experiences that transcend boundaries and reach audiences worldwide.</p>
+        <p class="value__ja" lang="ja">誰も見たことのない景色を思い描く<strong>創造力</strong>と、それを現実に変える確かな<strong>技術力</strong>。その両方を一つのチームに宿して、境界線を超えたシームレスなインターテインメント体験を世界中に提供する。</p>
+      </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <!-- D2: dark end sheet, three info columns, the logo filling the width and running off the bottom.
+         Each logo piece sinks under the pointer and springs back (sections.js). -->
+    <div class="footer__end theme-light">
+      <!-- company profile (moved here from the old Profile section) -->
+      <div class="footer__cols" id="profile">
+        <div><p class="footer__lbl mono">COMPANY</p><p>PORTS Inc. / <span lang="ja">株式会社PORTS</span><br>Founded August 2022<br>CEO Makoto Nirasawa / <span lang="ja">韮澤真人</span></p></div>
+        <div><p class="footer__lbl mono">ADDRESS</p><p>8B, Futaba Building, 1-16-6 Dogenzaka,<br>Shibuya-ku, Tokyo 150-0043</p></div>
+        <div><p class="footer__lbl mono">CONTACT</p><p>info@portshd.com</p></div>
+        <div><p class="footer__lbl mono">FOLLOW</p><p>Instagram · X · note<br><a href="#career" data-todo>Career →</a></p></div>
+      </div>
+      <div class="footer__big">
+        <svg viewBox="0 -40 714.94 194.25" role="img" aria-label="PORTS">
+          <g class="fl"><path fill-rule="evenodd" d="M53.52.54C27.54.54,5.9,19.08,1.09,43.66c0,0-.26,1.35-.37,2.05-.03.18-.05.36-.08.54-.07.48-.13.97-.19,1.46-.05.41-.1.82-.13,1.23-1.71,17.93,3.2,43.58,16.73,64.85,14.94,23.48,36.26,38.07,44.03,40.46,0,0-6.12-8.46-9.37-25.63-1.81-9.61-1.470-16.75-.78-21.27.85.04,1.71.07,2.57.07,29.51,0,53.44-23.92,53.44-53.44S83.03.54,53.52.54Z"/></g>
+          <g class="fl"><circle cx="176.72" cy="53.97" r="53.44"/></g>
+          <g class="fl"><path d="M315.47,5.69c-5.68-2.79-12.63-4.2-20.68-4.2h-43.88v104.56h21.3v-39.99h22.58c8.55,0,15.73-1.51,21.36-4.5,5.35-2.84,9.17-6.61,12.01-11.87,2.64-4.88,3.98-10.18,3.98-15.76,0-6.18-1.44-11.78-4.28-16.67-3.05-5.24-6.99-8.92-12.39-11.57ZM272.52,19.22h21.3c10.92,0,16.46,4.95,16.46,14.71,0,4.6-1.36,8.21-4.03,10.74-2.67,2.53-6.86,3.82-12.43,3.82h-21.3v-29.27Z"/></g>
+          <g class="fl"><path d="M422.53,6.89c-8.1-4.570-17.2-6.89-27.03-6.89s-18.81,2.32-26.96,6.89c-8.15,4.57-14.7,11-19.47,19.1-4.77,8.1-7.19,17.35-7.19,27.49s2.42,19.54,7.19,27.63c4.77,8.1,11.32,14.53,19.47,19.1,8.15,4.57,17.22,6.89,26.96,6.89s18.81-2.32,26.96-6.89c8.15-4.57,14.68-11,19.4-19.1,4.72-8.1,7.12-17.4,7.12-27.63s-2.39-19.38-7.12-27.48c-4.72-8.1-11.23-14.53-19.33-19.1ZM426.75,53.47c0,6.83-1.33,12.91-3.96,18.07-2.63,5.16-6.33,9.18-11,11.95-4.67,2.78-10.15,4.18-16.29,4.18s-11.64-1.41-16.36-4.18c-4.72-2.77-8.45-6.79-11.07-11.95-2.63-5.16-3.96-11.24-3.96-18.07s1.33-12.89,3.96-18c2.63-5.11,6.35-9.08,11.07-11.8,4.72-2.73,10.23-4.11,16.36-4.11s11.62,1.38,16.29,4.11c4.67,2.72,8.37,6.7,11,11.81,2.63,5.12,3.96,11.18,3.96,18Z"/></g>
+          <g class="fl"><path d="M535.24,52.33c3.99-5.53,6.01-11.83,6.01-18.7,0-5.98-1.44-11.46-4.28-16.29-2.84-4.84-7.16-8.73-12.84-11.57-5.67-2.84-12.63-4.27-20.68-4.27h-39.3v104.56h21.31v-40.58h9.52l22.92,40.48.06.1h24.65l-24.96-42.3c7.74-2.11,13.66-5.95,17.61-11.42ZM519.35,34.08c0,4.79-1.38,8.58-4.12,11.26-2.73,2.68-6.95,4.04-12.54,4.04h-17.25v-30.17h17.25c5.58,0,9.8,1.31,12.54,3.9,2.73,2.59,4.11,6.27,4.11,10.97Z"/></g>
+          <g class="fl"><polygon points="551.35 20.01 580.35 20.01 580.35 106.05 601.66 106.05 601.66 20.01 630.65 20.01 630.65 1.49 551.35 1.49 551.35 20.01"/></g>
+          <g class="fl"><path d="M710.28,59.91c-3.09-3.98-6.83-7.02-11.12-9.01-4.26-1.98-9.84-3.99-16.59-5.98-4.95-1.49-8.83-2.81-11.54-3.95-2.7-1.12-4.98-2.62-6.8-4.43-1.79-1.79-2.7-4.07-2.7-6.79,0-3.9,1.21-6.91,3.58-8.94,2.38-2.05,5.63-3.08,9.64-3.08,4.6,0,8.35,1.16,11.13,3.46,2.77,2.29,4.28,5.22,4.48,8.73v.2h23.41l-.02-.22c-.7-9.37-4.47-16.77-11.2-22.01-6.72-5.23-15.57-7.88-26.31-7.88-7.16,0-13.61,1.24-19.18,3.67-5.58,2.44-9.98,6.01-13.07,10.59-3.09,4.59-4.66,10.05-4.66,16.23,0,6.58,1.55,11.92,4.59,15.87,3.04,3.94,6.73,6.92,10.97,8.86,4.22,1.94,9.78,3.92,16.52,5.91,4.95,1.39,8.89,2.67,11.69,3.8,2.8,1.13,5.16,2.69,7.01,4.65,1.84,1.94,2.78,4.46,2.78,7.47,0,3.7-1.38,6.73-4.1,9.02-2.74,2.29-6.56,3.46-11.36,3.46s-8.44-1.24-11.12-3.68c-2.68-2.43-4.19-5.8-4.49-10.01v-.19h-22.8v.21c.1,6.38,1.87,11.99,5.26,16.68,3.38,4.68,8.06,8.32,13.89,10.81,5.82,2.49,12.45,3.75,19.7,3.75,7.65,0,14.36-1.44,19.94-4.27,5.58-2.84,9.87-6.71,12.76-11.49,2.89-4.79,4.36-10.04,4.36-15.63,0-6.48-1.57-11.79-4.67-15.79Z"/></g>
+        </svg>
+      </div>
+    </div>
+  </footer>
+
+  <!-- motion libraries (pinned): GSAP core + plugins, Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.23/dist/lenis.min.js"></script>
+  <script src="works-data.js"></script>
+  <script src="hero-intro.js"></script>
+  <script src="script.js"></script>
+  <script src="sections.js"></script>
+  <script src="about-stage.js"></script>
+  <script src="polish.js"></script>
+  <script src="cursor.js"></script>
+  <script src="side-dock-chart.js"></script>
+</body>
+</html>
