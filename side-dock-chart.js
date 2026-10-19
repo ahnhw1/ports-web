@@ -29,7 +29,7 @@
       float y = uv.y, t = uTime*.03;
       float f = fbm(uv*vec2(2.,2.6) + vec2(t, -t*.5));
       float g = fbm(uv*7. + vec2(-t*2., t));
-      float d = smoothstep(.34, 1.0, y + (f-.5)*.42 + (g-.5)*.05);
+      float d = smoothstep(.16, 1.0, y + (f-.5)*.42 + (g-.5)*.05);
       // the sea always reaches land before the section ends: contours bunch into a coastline, then white
       d = min(1., d + pow(smoothstep(.6, .95, y + (f-.5)*.2 + (g-.5)*.05), 2.2));
       float N = 9., k = d*N, lv = floor(k)/N;
@@ -87,15 +87,15 @@
     if (head) { hTop = 0; for (let el = head; el && el !== dock; el = el.offsetParent) hTop += el.offsetTop; }
     const hBot = hTop + (head ? head.offsetHeight : 0);
     for (let yy = cell, k = 0; yy < H * .92; yy += cell, k++) {
-      if (yy < H * .32) continue;   // no labels over the land
+      if (yy < H * .14) continue;   // no labels in the logo band
       const top = H - yy - 13;
       if (top + 12 > hTop - 6 && top < hBot + 6) continue;
       out.push(`<span class="lat" style="top:${top}px">35°${String((100 - k) % 60).padStart(2, '0')}'N</span>`);
     }
     for (let i = 0; i < 46; i++) {
       const fx = Math.abs((Math.sin(i * 12.9898) * 43758.5453) % 1), fy = Math.abs((Math.sin(i * 78.233) * 12345.678) % 1);
-      const yv = .42 + fy * .3, depth = Math.round(48 * (1 - (yv - .42) / .32) + 2);
-      out.push(`<span class="snd${yv < .52 ? ' deep' : yv > .64 ? ' shallow' : ''}" style="left:${fx * W}px;top:${yv * H}px">${depth}</span>`);
+      const yv = .3 + fy * .42, depth = Math.round(48 * (1 - (yv - .3) / .44) + 2);
+      out.push(`<span class="snd${yv < .45 ? ' deep' : yv > .62 ? ' shallow' : ''}" style="left:${fx * W}px;top:${yv * H}px">${depth}</span>`);
     }
     out.push('<span class="scale"><i></i>0 — 200 m</span>');
     out.push('<span class="title">SIDE DOCK — Shibuya, Tokyo<br>Soundings in metres</span>');
@@ -128,4 +128,6 @@
     drawn = true;
   };
   requestAnimationFrame(frame);
+  // design capture (index.html?capture): draw one frame on demand
+  if (window.PORTS) PORTS.dockDraw = () => frame(performance.now());
 })();

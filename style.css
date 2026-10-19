@@ -399,54 +399,48 @@ main { position: relative; z-index: 1; }
    the screen until SIDE DOCK rises over it) */
 .services { z-index: 1; padding-top: 0; padding-bottom: 0; }
 /* SIDE DOCK: blue only around the logo, then the chart's sea reaches land (= the Works background) */
-.studio { position: relative; z-index: 2; height: 128svh; }
+.studio { position: relative; z-index: 2; height: 100svh; }
 /* covers stay opaque until the theme swap behind them has fully finished (script.js) */
 .mission { z-index: 3; min-height: 100svh; }
 /* the page that rises over SIDE DOCK: opaque while it covers, see-through afterwards (script.js) */
-.works { position: relative; z-index: 3; height: calc(100svh + var(--works-n, 8) * 16svh); background: #f4f6fd; }
+.works { position: relative; z-index: 3; height: calc(100svh + var(--works-n, 8) * 50vw); background: #f4f6fd; }
 
-/* ---------- Works (A5 index): sticky stage, the list scrolls through the centre ---------- */
+/* ---------- Works (horizontal islands): pinned stage, vertical scroll slides a row of scattered plates ----------
+   Five sizes and heights repeat (--w width, --t top, --h height); one mono line per plate, below it or, for
+   the low plates, above it. Plates open from the right as they arrive (.is-in, sections.js). */
 .works__sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; }
-.works__list {
-  position: absolute; left: var(--gutter); top: 0; margin: 0; padding: 0; list-style: none;
-  font-family: var(--sans); font-weight: 800; font-size: 11svh; line-height: 1.182; font-stretch: 62%;
-  text-transform: uppercase; letter-spacing: -.01em; will-change: transform;
-}
-.works__list li { color: color-mix(in srgb, var(--ink) 9%, transparent); white-space: nowrap; transition: color .3s; }
-.works__list li.is-on { color: var(--ink); }
-/* the three images float on three depths (front / middle / back): sections.js floats each card and moves
-   it against the pointer and the scroll by its depth; .works__lift takes the swap when the work changes */
-.works__imgs { position: absolute; inset: 0; perspective: 1400px; pointer-events: none; }
-.works__imgs a { position: absolute; display: block; pointer-events: auto; will-change: transform; }
-.works__lift { position: relative; display: block; aspect-ratio: 3 / 4; transition: filter .3s; }
-.works__lift i { position: absolute; inset: 0; background-size: cover; background-position: center; }
-.works__imgs a:nth-child(1) { left: 71vw; top: 6svh; width: 20vw; z-index: 3; }     /* front */
-.works__imgs a:nth-child(2) { left: 58.5vw; top: 50svh; width: 10.5vw; z-index: 1; } /* back */
-.works__imgs a:nth-child(3) { left: 85vw; top: 48svh; width: 13.5vw; z-index: 2; }  /* middle */
-/* depth cue kept light so the work in the back stays readable: a touch of blur and colour only */
-.works__imgs a:nth-child(2) .works__lift { filter: blur(.5px) saturate(.94) brightness(.97); }
-.works__imgs a:hover .works__lift, .works__imgs a:focus-visible .works__lift { filter: brightness(1.08); }
-/* narrow screens: the names keep the top half (smaller, so the longest fits the width) and the three
-   images float in a band over the bottom half, which hides the faint names behind it */
+.works__track { position: relative; display: flex; height: 100%; width: max-content; will-change: transform; }
+.wcard { position: relative; flex: 0 0 var(--w); height: 100%; color: var(--ink); will-change: transform;
+  --w: 44vw; --t: 14svh; --h: 50svh; }
+.wcard:nth-child(5n+2) { --w: 30vw; --t: 46svh; --h: 30svh; }
+.wcard:nth-child(5n+3) { --w: 52vw; --t: 8svh; --h: 58svh; }
+.wcard:nth-child(5n+4) { --w: 34vw; --t: 28svh; --h: 38svh; }
+.wcard:nth-child(5n) { --w: 40vw; --t: 50svh; --h: 26svh; }
+.wcard__img { position: absolute; left: 0; right: 5vw; top: calc(72px + var(--t)); height: var(--h); overflow: hidden; background: var(--c, #dde2f2);
+  clip-path: inset(0 0 0 100%); transition: clip-path 1.3s var(--ease-out); }
+.wcard__img i { position: absolute; inset: 0; background-size: cover; background-position: center; transform: scale(1.18); transition: transform 1.6s var(--ease-out); }
+.wcard__info { position: absolute; left: 0; right: 5vw; top: calc(72px + var(--t) + var(--h) + 14px); display: flex; align-items: baseline; gap: 14px;
+  opacity: 0; transform: translateY(8px); transition: opacity .6s .35s, transform .8s var(--ease-out) .35s; }
+.wcard:nth-child(5n+2) .wcard__info, .wcard:nth-child(5n) .wcard__info { top: auto; bottom: calc(100svh - 72px - var(--t) + 14px); }
+.wcard__no { font: 500 12px var(--mono); color: var(--blue); }
+.wcard__title { font-size: 14px; font-weight: 600; transition: color .3s; }
+.wcard__date { margin-left: auto; font: 400 12px var(--mono); color: color-mix(in srgb, var(--ink) 60%, transparent); }
+.wcard.is-in .wcard__img { clip-path: inset(0); }
+.wcard.is-in .wcard__img i { transform: scale(1); }
+.wcard.is-in .wcard__info { opacity: 1; transform: none; }
+.wcard.is-in:hover .wcard__img i, .wcard.is-in:focus-visible .wcard__img i { transform: scale(1.04); }
+.wcard:hover .wcard__title, .wcard:focus-visible .wcard__title { color: var(--blue); }
+/* last card: All works */
+.wcard--all { --w: 30vw; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 22px; text-decoration: none; }
+.wcard--all .wcard__arrows { font-size: clamp(36px, 3vw, 54px); color: var(--blue); transition: transform .45s var(--ease-out); }
+.wcard--all .wcard__label { font-weight: 700; font-size: clamp(18px, 1.5vw, 24px); text-transform: uppercase; display: inline-flex; gap: 12px; align-items: center; }
+.wcard--all .works__count { padding: .3em .65em; border-radius: 99px; background: var(--blue); color: #fff; font: 600 .62em/1 var(--mono); }
+.wcard--all:hover .wcard__arrows, .wcard--all:focus-visible .wcard__arrows { transform: translateX(10px); }
 @media (max-width: 960px) {
-  .works__list { font-size: min(11svh, 10.5vw); }
-  .works__imgs { inset: 54svh 0 0 0; background: linear-gradient(rgb(244 246 253 / 0), #f4f6fd 48px); }
-  .works__imgs a:nth-child(1) { left: 50vw; top: 4%; width: min(40vw, 26svh); }   /* front */
-  .works__imgs a:nth-child(2) { left: 30vw; top: 40%; width: min(22vw, 14svh); }  /* back */
-  .works__imgs a:nth-child(3) { left: 7vw; top: 6%; width: min(30vw, 19svh); }   /* middle */
+  .wcard { flex-basis: calc(var(--w) * 1.9); }
+  .wcard__info { gap: 10px; }
+  .wcard__title { font-size: 13px; }
 }
-/* All works: filled blue, large, with the total count; turns ink on hover and the arrow slides */
-.works__all {
-  position: absolute; left: var(--gutter); bottom: clamp(28px, 5vh, 56px); z-index: 2;
-  display: inline-flex; align-items: center; gap: 14px;
-  padding: 20px 34px; border-radius: 99px; background: var(--blue); color: #fff;
-  font-weight: 700; font-size: clamp(18px, 1.5vw, 24px); transition: background .25s;
-}
-.works__count { padding: .3em .65em; border-radius: 99px; background: #fff; color: var(--blue); font: 600 .62em/1 var(--mono); transition: color .25s; }
-.works__arrow { display: inline-block; transition: transform .35s var(--ease-out); }
-.works__all:hover, .works__all:focus-visible { background: var(--ink); }
-.works__all:hover .works__count, .works__all:focus-visible .works__count { color: var(--ink); }
-.works__all:hover .works__arrow, .works__all:focus-visible .works__arrow { transform: translateX(6px); }
 
 /* ---------- Works page (works.html): huge filter words + square tiles ---------- */
 .wp { position: relative; z-index: 1; padding: 108px var(--gutter) clamp(80px, 14vh, 160px); }
@@ -533,7 +527,7 @@ main { position: relative; z-index: 1; }
 .studio__marks .snd { color: rgb(214 224 255 / .75); font-size: 9px; }
 .studio__marks .snd.deep { color: rgb(214 224 255 / .55); }
 .studio__marks .snd.shallow { color: rgb(255 255 255 / .7); }
-.studio__marks .scale, .studio__marks .title { top: 68.75%; color: rgb(255 255 255 / .8); }
+.studio__marks .scale, .studio__marks .title { top: 80%; color: rgb(255 255 255 / .8); }
 .studio__marks .scale { left: var(--gutter); display: flex; flex-direction: column; gap: 5px; }
 .studio__marks .scale i { display: block; width: 120px; height: 5px; background: repeating-linear-gradient(90deg, rgb(255 255 255 / .8) 0 30px, transparent 30px 60px); border: 1px solid rgb(255 255 255 / .8); }
 .studio__marks .title { right: var(--gutter); text-align: right; line-height: 1.6; }
@@ -750,7 +744,7 @@ a:hover .arrow-swap > svg:last-child { transform: none; }
 
   .sec, .studio__sticky { padding-top: 96px; }
   .services { padding-top: 0; }
-  .studio { height: 110svh; }
+  .studio { height: 92svh; }
   .studio__grid, .profile__grid { grid-template-columns: 1fr; }
   .link-row { grid-template-columns: 1fr auto; }
   .link-row__text { grid-column: 1; grid-row: 2; }

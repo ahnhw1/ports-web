@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="style.css">
   <!-- motion is opt-in: script.js removes this class if the animation libraries fail to load -->
   <script>document.documentElement.classList.add('js-anim');</script>
+  <!-- design capture (index.html?capture, used to build the Figma file): keep WebGL frames readable -->
+  <script>if (/[?&]capture/.test(location.search)) { const g = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function (t, o) { return g.call(this, t, /webgl/.test(t) ? Object.assign({}, o, { preserveDrawingBuffer: true }) : o); }; }</script>
 </head>
 <body>
   <!-- dot cursor (cursor.js): a small blue dot that follows the pointer and shows a label over links -->
@@ -160,16 +162,14 @@
       </div>
     </section>
 
-    <!-- ===== CREATIVE STUDIO: WORKS (A5 index) =====
-         Selected works as a huge condensed name list; the name at the centre is dark and its images
-         stack on the right. Filled from works-data.js (featured entries) by sections.js.
-         This page rises over SIDE DOCK (the cover script.js used to run with Mission). -->
+    <!-- ===== CREATIVE STUDIO: WORKS (horizontal strip) =====
+         The section pins and vertical scroll moves a row of work cards sideways (image on top, date /
+         title / number / note below, hairline between cards), ending in an All works card.
+         Filled from works-data.js (featured entries) by sections.js. The previous name-index version
+         is kept in snapshots/2026-10-19_before-works-horizontal. -->
     <section class="works theme-light" id="works" data-nav="creative-studio">
       <div class="works__sticky">
-        <ul class="works__list" id="worksList"></ul>
-        <!-- the three images belong to the work at the centre; each opens its detail page -->
-        <div class="works__imgs" id="worksImgs"><a href="#" data-cursor="View"><span class="works__lift"></span></a><a href="#" data-cursor="View" tabindex="-1"><span class="works__lift"></span></a><a href="#" data-cursor="View" tabindex="-1"><span class="works__lift"></span></a></div>
-        <a class="works__all" href="works.html">All works <b class="works__count" id="worksCount"></b><span class="works__arrow" aria-hidden="true">→</span></a>
+        <div class="works__track" id="worksTrack"></div>
       </div>
     </section>
 

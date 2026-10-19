@@ -208,6 +208,9 @@
   ScrollTrigger.addEventListener('refresh', render);
   render();
 
+  // design capture (index.html?capture, for the Figma file): set a step state and draw the shaders on demand
+  if (window.PORTS) PORTS.aboutStage = { state, render, draw: (t) => { slots.forEach((s) => s.view && s.view.draw(t)); if (fullView) fullView.draw(t); } };
+
   // shader clock: only while the section is on screen, only the images that are open
   let visible = false;
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(domain);

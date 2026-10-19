@@ -152,7 +152,7 @@
     dissolveEach([$('.studio__logo'), $('.studio__sub')]);
 
     if ($('.works')) dissolve(() => [
-      $('#worksList'), ...$$('#worksImgs > a'), $('.works__all'),
+      $('#worksTrack'),
     ], { trigger: '.works', ...exitRange });
 
     dissolveEach([$('.mission__h2'),
@@ -377,6 +377,7 @@
     };
 
     value.classList.add('is-live');
+    if (window.PORTS) PORTS.valueStage = { state, render };   // design capture (index.html?capture)
     size();
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(size);
     ScrollTrigger.addEventListener('refreshInit', size);
@@ -460,76 +461,50 @@
     });
   })();
 
-  /* ---------------- Works (A5 index): the list scrolls through the centre of a pinned stage ---------------- */
-  // The name crossing the centre turns dark, its category shows in the middle and three images
-  // (or stand-in gradients) stack on the right. Data: window.PORTS_WORKS (featured entries).
+  /* ---------------- Works (horizontal islands): the pinned row slides sideways with vertical scroll ---------------- */
+  // Large plates in five repeating sizes and heights, one mono line each (number · title · year); the
+  // last card links to All works. Each plate drifts at its own speed (bigger ones read as closer) and
+  // opens from the right as it arrives. The section's height is set so its scroll distance equals the
+  // row's overflow. Data: window.PORTS_WORKS (featured entries). Earlier designs are kept in
+  // snapshots/2026-10-19_works-strip-study (compare-works-strip.html).
   (() => {
-    const section = $('#works'), list = $('#worksList');
-    if (!section || !list || !window.PORTS_WORKS) return;
+    const section = $('#works'), track = $('#worksTrack');
+    if (!section || !track || !window.PORTS_WORKS) return;
     const works = window.PORTS_WORKS.filter((w) => w.featured);
-    const n = works.length;
-    section.style.setProperty('--works-n', n);
-    list.innerHTML = works.map((w) => `<li>${w.title}</li>`).join('');
-    const items = $$('li', list), imgs = $$('#worksImgs a');
-    const count = $('#worksCount');
-    if (count) count.textContent = window.PORTS_WORKS.length;
-    let k = -1;
-    const show = (i) => {
-      if (i === k) return;
-      k = i;
-      items.forEach((li, j) => li.classList.toggle('is-on', j === i));
-      const w = works[i];
-      imgs.forEach((d, j) => {
-        // all three slots are this work's images; each opens its detail page
-        d.href = `work.html#${w.slug}`;
-        d.setAttribute('aria-label', `${w.title} — view project`);
-        // the new image fades in over the old one while the card comes forward out of its depth
-        const lift = lifts[j], layer = document.createElement('i');
-        layer.style.background = window.PORTS_WORK_IMG(w, j);
-        lift.appendChild(layer);
-        const done = () => [...lift.children].slice(0, -1).forEach((o) => o.remove());
-        if (!motion || first) { done(); return; }
-        gsap.fromTo(layer, { opacity: 0 }, { opacity: 1, duration: .55, ease: 'power2.out', delay: j * .06, onComplete: done });
-        gsap.fromTo(lift, { scale: .9, z: -120 }, { scale: 1, z: 0, duration: .9, ease: 'expo.out', delay: j * .06, overwrite: true });
-      });
-      first = false;
+    track.innerHTML = works.map((w, i) => `
+      <a class="wcard" href="work.html#${w.slug}" data-cursor="View" style="--c:${w.color || '#dde2f2'}">
+        <span class="wcard__img"><i style="background:${window.PORTS_WORK_IMG(w, 0)}"></i></span>
+        <span class="wcard__info">
+          <span class="wcard__no">${String(i + 1).padStart(2, '0')}</span>
+          <span class="wcard__title">${w.title}</span>
+          <span class="wcard__date">${w.year}</span>
+        </span>
+      </a>`).join('') + `
+      <a class="wcard wcard--all" href="works.html" data-cursor="Go">
+        <span class="wcard__arrows" aria-hidden="true">▶▶</span>
+        <span class="wcard__label">All works <b class="works__count">${window.PORTS_WORKS.length}</b></span>
+      </a>`;
+    const cards = $$('.wcard:not(.wcard--all)', track);
+    const DRIFT = [.06, -.1, .12, -.04, -.08];   // per plate, repeating with the five sizes in style.css
+    let dist = 0;
+    const measure = () => {
+      dist = Math.max(0, track.scrollWidth - innerWidth);
+      section.style.height = `${innerHeight + dist}px`;
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
     };
-    const lifts = imgs.map((a) => $('.works__lift', a));
-    const narrow = matchMedia('(max-width: 960px)');
-    let first = true;
-
-    // floating on three depths (front / back / middle, as the CSS places them): each card drifts on its
-    // own slow sine, moves against the pointer and lags the scroll in proportion to its depth
-    const DEPTH = [1, .3, .6];
-    const P = { x: 0, y: 0, tx: 0, ty: 0, vel: 0 };
-    if (motion) {
-      addEventListener('pointermove', (e) => { P.tx = e.clientX / innerWidth - .5; P.ty = e.clientY / innerHeight - .5; }, { passive: true });
-      let on = false;
-      new IntersectionObserver(([e]) => { on = e.isIntersecting; }).observe(section);
-      tick((t) => {
-        if (!on) return;
-        P.x += (P.tx - P.x) * .06; P.y += (P.ty - P.y) * .06;
-        P.vel += (((window.PORTS && PORTS.lenis && PORTS.lenis.velocity) || 0) - P.vel) * .12;
-        imgs.forEach((a, i) => {
-          const z = DEPTH[i], ph = i * 2;
-          const dx = -P.x * 70 * z + Math.sin(t * .7 + ph) * 5;
-          const dy = -P.y * 50 * z + Math.sin(t * .9 + ph) * 10 - P.vel * 1.4 * z;
-          a.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) rotate(${(P.x * 3 * z).toFixed(2)}deg)`;
-        });
-      });
-    }
     const update = () => {
-      const r = section.getBoundingClientRect(), vh = innerHeight;
-      const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)));
-      const f = p * (n - 1);
-      // one name per step (its line height); the name at the focus line is the current one — on
-      // narrow screens the focus sits higher, in the top half above the images
-      const step = items[0] ? items[0].offsetHeight : .13 * vh;
-      const focus = narrow.matches ? .24 : .38;
-      list.style.transform = `translateY(${(focus * vh - f * step).toFixed(1)}px)`;
-      show(Math.round(f));
+      const r = section.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight)));
+      const x = -p * dist, c = innerWidth / 2;
+      track.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0)`;
+      cards.forEach((el, i) => {
+        const m = el.offsetLeft + x + el.offsetWidth / 2;
+        if (motion) el.style.transform = `translate3d(${((m - c) * DRIFT[i % 5]).toFixed(1)}px, 0, 0)`;
+        el.classList.toggle('is-in', !motion || m - el.offsetWidth / 2 < innerWidth * .92);
+      });
     };
-    update();
+    measure(); update();
+    addEventListener('resize', () => { measure(); update(); });
     if (motion) tick(update); else addEventListener('scroll', update, { passive: true });
   })();
 

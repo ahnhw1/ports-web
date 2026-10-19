@@ -17,7 +17,7 @@
     const ja = hero && hero.querySelector('.hero__ja');
     const show = () => { ja && ja.classList.add('is-split'); root.classList.add('is-intro-done'); };
     if (!hero || !logo || !window.gsap) { show(); return; }
-    if (scrollY > 10 || (location.hash && location.hash !== '#hero')) { show(); return; }
+    if (scrollY > 10 || (location.hash && location.hash !== '#hero') || /[?&]capture/.test(location.search)) { show(); return; }
 
     // the wordmark, inline, so its letters can be measured and split
     let svgText;
